@@ -28,6 +28,7 @@ class Book {
   static void add_book() {
     stdout.write('Enter the count of books want to add: ');
     try {
+      List<Book>? bookslist = Book.books.cast<Book>();
       int num = int.parse(stdin.readLineSync()!);
       for (int i = 0; i < num; i++) {
         stdout.write('Enter book ${i + 1} name: ');
@@ -36,10 +37,17 @@ class Book {
         String book_author = stdin.readLineSync()!;
         stdout.write('Enter book ${i + 1} rate: ');
         double book_rate = double.parse(stdin.readLineSync()!);
-        print('=' * 30);
         Book new_book =
             Book(name: book_name, author: book_author, rate: book_rate);
-        books.add(new_book);
+        bool check = bookslist.any((book) =>
+            book.name.toUpperCase().trim() ==
+            book_name.toUpperCase().trim()); //to give the book unique name!
+        if (check == true) {
+          print('The book is already exsist!');
+        } else {
+          books.add(new_book);
+        }
+        print('=' * 30);
       }
     } catch (e) {
       print('You entered unvalid input!');
